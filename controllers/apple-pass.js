@@ -27,7 +27,7 @@ async function generatePass(req, res) {
         wwdr,
         signerCert,
         signerKey,
-        signerKeyPassphrase:"WOhuJwvc2NmE4T"
+        signerKeyPassphrase:process.env.SIGNER_PARAPHRASE
       },
     }, {
       authenticationToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
@@ -76,7 +76,6 @@ async function generatePass(req, res) {
       })
       const resp=await axios.get(req.body.thumbnail,{responseType:"arraybuffer"})
       const respLogo=await axios.get(req.body.icon,{responseType:"arraybuffer"})
-      console.log(respLogo)
      
     const buffer=Buffer.from(resp.data,'utf-8')
     const Logobuffer=Buffer.from(respLogo.data,'utf-8')
@@ -85,7 +84,7 @@ async function generatePass(req, res) {
     newPass.addBuffer("logo.png",Logobuffer)
     newPass.addBuffer("logo@2x.png",Logobuffer)
     const bufferData=newPass.getAsBuffer()
-    console.log(bufferData)
+    await uploadImage( bufferData,"images/custom.pkpass")
     fs.writeFileSync('new.pkpass', bufferData);
     res.send("Pass generated").status(200);
     });

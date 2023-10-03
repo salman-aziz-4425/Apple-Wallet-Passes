@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const firebase=require('./config')
 const passRoutes = require('./routes/apple-pass');
 

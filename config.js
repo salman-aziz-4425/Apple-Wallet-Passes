@@ -14,4 +14,4 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebaseLite.getFirestore(app);
 const Pass = firebaseLite.collection(db, 'Pass');
-module.exports = { db, Pass };
+module.exports = { db, Pass,firebaseLite };

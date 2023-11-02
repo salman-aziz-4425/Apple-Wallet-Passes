@@ -8,19 +8,19 @@ const { generateSinglePass } = require('../generateSinglePass');
 async function generatePass(req, res) {
   try {
     const {serial,bufferData}=await generateSinglePass(req)
-    // await uploadImage(bufferData,`images/${serial}.pkpass`)
+    await uploadImage(bufferData,`images/${serial}.pkpass`)
     fs.writeFileSync(`${serial}.pkpass`,bufferData);
-    // dbInfo.firebaseLite.addDoc(dbInfo.Pass,{
-    //   userId:req.body.userId,
-    //   passIndetifier:serial,
-    //   passInfo:req.body,
+    dbInfo.firebaseLite.addDoc(dbInfo.Pass,{
+      userId:req.body.userId,
+      passIndetifier:serial,
+      passInfo:req.body,
 
-    // }).then((docRef) => {
-    //   console.log('Document written with ID: ', docRef.id);
-    // })
-    // .catch((error) => {
-    //   console.error('Error adding document: ', error);
-    // });
+    }).then((docRef) => {
+      console.log('Document written with ID: ', docRef.id);
+    })
+    .catch((error) => {
+      console.error('Error adding document: ', error);
+    });
     res.send({
       userId:req.body.userId,
       passIndetifier:serial,

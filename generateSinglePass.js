@@ -36,8 +36,8 @@ async function generateSinglePass(req) {
         serialNumber: serial,
         description: 'OriginPass',
         logoText: "OriginPass for Loyalty",
-        // foregroundColor: hextoRgb("#" + req.body.textColor),
-        // backgroundColor: hextoRgb("#" + req.body.backgroundColor),
+        foregroundColor: hextoRgb("#" + req.body.textColor),
+        backgroundColor: hextoRgb("#" + req.body.backgroundColor),
       }).then(async (newPass)=>{
         newPass.primaryFields.push({
             key: 'primary0',
@@ -65,9 +65,9 @@ async function generateSinglePass(req) {
 
           for (let i = 0; i < req.body.backField.length; i++) {
             newPass.backFields.push({
-              "key": `backField${i}`,
-              "label": "More info",
-              "value": "This pass is for demo purposes only. Brought to you by Dot Origin and the VTAP100 mobile NFC pass reader.  For more details visit vtap100.com"
+              key: `backField${i}`,
+              label:req.body.backField[i].label,
+              value:req.body.backField[i].value
             })
           }
 

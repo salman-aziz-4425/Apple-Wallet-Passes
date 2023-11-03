@@ -25,33 +25,42 @@ Here's a simple example of how to generate an Apple Wallet pass using this proje
 ## Sample Input:
  ```bash
 {
+    {
+    "userId":"1",
     "qrText":"Eqan my friend",
     "thumbnail":"https://images2.alphacoders.com/132/1323416.jpeg",
      "icon":" https://static.vecteezy.com/system/resources/thumbnails/024/553/676/small/skull-wearing-crown-logo-skull-king-sticker-pastel-cute-colors-generative-ai-png.png",
     "primary":{
         "value":"Salman Aziz",
-        "label":"Name"
+        "label":"MEMBER NAME"
     },
     "secondary":[
         {
-        "value":"Salman Aziz",
-        "label":"name"
+        "value":"12345",
+        "label":"Loyalty Points"
         },
         {
-        "value":"secondary fields",
-        "label":"Name"
+        "value":"2",
+        "label":"No of views"
         }
     ],
     "auxiliary":[
         {
-        "value":"auxiliary fields",
-        "label":"Name"
+        "value":"Silver",
+        "label":"TIER"
         },
         {
-        "value":"auxiliary fields",
-        "label":"Name"
+        "value":"21313123",
+        "label":"MEMBER NUMBER"
         }
     ],
-    "backgroundColor":"000000",
-    "textColor":"FFFFFF"
+"foregroundColor" : "FFFFFF",
+  "backgroundColor" : "333333",
+    "backField":[
+        {
+              "label": "More info",
+              "value": "This pass is for demo purposes only. Brought to you by Dot Origin and the VTAP100 mobile NFC pass reader.  For more details visit vtap100.com"
+            }
+    ]
+}
 }

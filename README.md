@@ -13,7 +13,9 @@ This project demonstrates how to generate Apple Wallet passes using Node.js. It 
 
 Here's a simple example of how to generate an Apple Wallet pass using this project:
 
-<img width="312" alt="image" src="https://github.com/salman-aziz-4425/Apple-Wallet-Passes-Nodejs/assets/85288719/b6a6bada-cc29-40ad-b5b8-a302838bad79">
+<img width="312" alt="image" src="https://github.com/meteoin/NFC-Loyalty-Program-Using-Apple-Creds/assets/85288719/de308d05-3450-45cf-9fc9-826142dc716e">
+
+
 
 ## Getting Started
 

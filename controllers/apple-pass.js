@@ -4,12 +4,20 @@ const axios=require('axios')
 const dbInfo=require("../config")
 const uploadImage = require('../utils/uploadImage');
 const { generateSinglePass } = require('../generateSinglePass');
+const { Storage } = require('@google-cloud/storage');
+
+const storage = new Storage(
+  {
+    keyFilename:process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  }
+);
 
 async function generatePass(req, res) {
   try {
     const {serial,bufferData}=await generateSinglePass(req)
-    await uploadImage(bufferData,`images/${serial}.pkpass`)
     fs.writeFileSync(`${serial}.pkpass`,bufferData);
+    await uploadImage(bufferData,`images/${serial}.pkpass`)
+    
     dbInfo.firebaseLite.addDoc(dbInfo.Pass,{
       userId:req.body.userId,
       passIndetifier:serial,
@@ -68,8 +76,49 @@ async function updatePass(req, res) {
   }
 }
 
+async function getPass(req, res) {
+  try {
+    const userId = req.query.userId; // Assuming you have the userId in the request body
+
+    // Fetch the user's passes from the database
+    const passRef = await dbInfo.firebaseLite.getDocs(dbInfo.Pass);
+    const userPasses = passRef.docs.filter((doc) => {
+      const data = doc.data();
+      return data.userId === userId;
+    });
+
+    if (userPasses.length === 0) {
+      return res.status(404).send('No passes found for this user.');
+    }
+
+    const passDataArray = [];
+
+    for (const userPass of userPasses) {
+      const passData = userPass.data();
+      const passSerial = passData.passIndetifier;
+
+      const bucket = storage.bucket('apple-wallet-6a41a.appspot.com');
+      const file = bucket.file(`images/${passSerial}.pkpass`);
+  
+      const [passBuffer] = await file.download();
+      
+
+      passDataArray.push({
+        passSerial: passSerial,
+        passInfo: passData.passInfo,
+        passBuffer:passBuffer
+      });
+    }
+
+    res.status(200).send(passDataArray);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching passes.');
+  }
+}
 
 module.exports = {
   generatePass,
-  updatePass
+  updatePass,
+  getPass
 };
